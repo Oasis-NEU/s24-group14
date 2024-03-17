@@ -40,3 +40,35 @@
 .read-the-docs {
   color: #888;
 }
+
+
+body {
+  background-color: lightblue
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+
+.button-left {
+  margin-left: 0;
+}
+
+.button-middle {
+  margin-right: 0;
+}
+
+.button-right {
+  margin-right: 0;
+}
+
+.button-left, .button-middle, .button-right {
+  padding: 6px;
+  border-style: groove;
+  background-color: #61dafbaa;
+  color: black;
+  font-weight: bold;
+}
