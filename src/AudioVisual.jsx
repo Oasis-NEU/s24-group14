@@ -1,63 +1,33 @@
 import { useEffect, useState } from 'react';
-import {
-    createSoundDetector,
-    Icon,
-    useCallStateHooks,
-  } from '@stream-io/video-react-sdk';
-  
-  export const AudioVolumeIndicator = () => {
-    const { useMicrophoneState } = useCallStateHooks();
-    const { isEnabled, mediaStream } = useMicrophoneState();
-    const [audioLevel, setAudioLevel] = useState(0);
-  
-    useEffect(() => {
-      if (!isEnabled || !mediaStream) return;
-  
-      const disposeSoundDetector = createSoundDetector(
-        mediaStream,
-        ({ audioLevel: al }) => setAudioLevel(al),
-        { detectionFrequencyInMs: 80, destroyStreamOnStop: false },
-      );
-  
-      return () => {
-        disposeSoundDetector().catch(console.error);
-      };
-    }, [isEnabled, mediaStream]);
-  
-    if (!isEnabled) return null;
-  
-    return (
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '0 1.25rem 1rem',
-        }}
-      >
-        <Icon icon="mic" />
-        <div
-          style={{
-            flex: '1',
-            background: '#fff',
-            height: '5px',
-            borderRadius: '4px',
-          }}
-        >
-          <div
-            style={{
-              transform: `scaleX(${audioLevel / 100})`,
-              transformOrigin: 'left center',
-              background: 'var(--str-video__primary-color)',
-              width: '100%',
-              height: '100%',
-            }}
-          />
-          <AudioVisual />
-        </div>
-      </div>
-    );
-  };
+import { Visualizer } from 'react-sound-visualizer';
 
-  export default AudioVisual;
+function visualizerfr() {
+  const [audio, setAudio] = useState<MediaStream | null>(null);
+
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+        video: false,
+      })
+      .then(setAudio);
+  }, []);
+
+  return (
+      <Visualizer audio={audio}>
+        {({ canvasRef, stop, start, reset }) => (
+          <>
+            <canvas ref={canvasRef} width={500} height={100} />
+
+            <div>
+              <button onClick={start}>Start</button>
+              <button onClick={stop}>Stop</button>
+              <button onClick={reset}>Reset</button>
+            </div>
+          </>
+        )}
+      </Visualizer>
+  );
+}
+
+export default App;

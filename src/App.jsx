@@ -2,7 +2,8 @@ import "./App.css";
 import { useState, useRef} from 'react';
 import VideoRecorder from "../src/VideoRecorder";
 import AudioRecorder from "../src/AudioRecorder";
-import AudioVisual from "./AudioVisual";
+import visualizerfr from "./AudioVisual";
+
 
 
 
@@ -35,7 +36,7 @@ const App = () => {
             {recordOption === "video" ? <VideoRecorder /> : <AudioRecorder />}
         </div>
         <div>
-          <AudioVisual></AudioVisual>
+            <visualizerfr></visualizerfr>
         </div>
     </div></>
     );
